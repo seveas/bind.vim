@@ -1,0 +1,20 @@
+Zonefile goodies for vim
+------------------------
+
+This plugin makes maintaining zonefiles a little bit easier:
+
+* When creating a new zonefile, a skeleton SOA and NS record are created
+  automatically, based on the filename.
+* When saving a zonefile, the serial is automatically incremented, using the
+  YYYYMMDDnn convention (so no more than 99 saves per day please!)
+* When saving a zonefile, rndc reload is performed
+
+You should always name your zonefiles after the zone they contain, such as 
+1.42.10.in-addr.arpa.zone or home.kaarsemaker.net.zone
+
+Install instructions:
+
+- Install pathogen.vim (http://www.vim.org/scripts/script.php?script_id=2332)
+- cd ~/.vim && git clone git://github.com/seveas/bind.vim.git
+
+©2011 Dennis Kaarsemaker <dennis@kaarsemaker.net>
