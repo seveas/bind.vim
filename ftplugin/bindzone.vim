@@ -66,6 +66,13 @@ function! ZoneTemplate()
     let @@ .= "                86402      ; minimum (1 day 2 seconds)\n"
     let @@ .= ")\n" . domain . ".  IN NS master.name.server\n\n"
     let @@ .= "$ORIGIN " . domain . ".\n\n""
+    if domain =~? "in-addr\.arpa"
+        let i = 1
+        while i < 254
+            let @@ .= printf(";%-3d    IN PTR\n", i)
+            let i += 1
+        endwhile
+    endif
     execute "normal! ggP"
     let @@ = saved_reg
 endfunction
