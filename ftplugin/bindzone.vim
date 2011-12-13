@@ -12,6 +12,13 @@ function! IncSerial()
     " Find the domain. Must be the first thing on the SOA line
     silent execute ":normal! gg/SOA\rk$/\\S\rv/\\s\rh\"dy"
 
+    " If it's @, use the filename instead
+    if @d == '@'
+        let @d = expand('%:t:r')
+    endif
+
+    echom "Checking and writing zone " . @d
+
     " Run through checkzone
     if filereadable("/usr/sbin/named-checkzone")
         let content = join(getline(1,"$"), "\n") . "\n"
