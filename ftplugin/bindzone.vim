@@ -9,6 +9,18 @@ function! IncSerial()
     let saved_d = @d
     let saved_s = @s
 
+    " Find the domain. Must be the first thing on the SOA line
+    silent execute ":normal! gg/SOA\rk$/\\S\rv/\\s\rh\"dy"
+
+    " Run through checkzone
+    if filereadable("/usr/sbin/named-checkzone")
+        let content = join(getline(1,"$"), "\n") . "\n"
+        let result = system("/usr/sbin/named-checkzone " . @d . " /dev/stdin", content)
+        if v:shell_error != 0
+            throw "Syntax error in zonefile"
+        endif
+    endif
+
     " Find SOA record and the serial number
     silent execute ":normal! gg/SOA\r/(\r/\\d\r\"dy8l8l\"sy2l"
     echom "Old Date " . @d . " Serial "  . @s
@@ -25,20 +37,6 @@ function! IncSerial()
 
     " And put back
     silent execute ":normal! 8h10xh\"dp\"sp"
-
-    " Find the domain. Must be the first thing on the SOA line
-    silent execute ":normal! gg/SOA\rk$/\\S\rv/\\s\rh\"dy"
-
-    echom "Checking and writing zone " . @d
-
-    " Run through checkzone
-    if filereadable("/usr/sbin/named-checkzone")
-        let content = join(getline(1,"$"), "\n") . "\n"
-        let result = system("/usr/sbin/named-checkzone " . @d . " /dev/stdin", content)
-        if v:shell_error != 0
-            throw "Syntax error in zonefile"
-        endif
-    endif
 
     " Return to where we were
     call setpos('.', curpos)
