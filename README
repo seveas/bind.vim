@@ -15,6 +15,6 @@ You should always name your zonefiles after the zone they contain, such as
 Install instructions:
 
 - Install pathogen.vim (http://www.vim.org/scripts/script.php?script_id=2332)
-- cd ~/.vim && git clone git://github.com/seveas/bind.vim.git
+- cd ~/.vim/bundle && git clone git://github.com/seveas/bind.vim.git
 
 ©2011 Dennis Kaarsemaker <dennis@kaarsemaker.net>
